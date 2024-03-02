@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import Searchbox from "./components/Searchbox"
 import Countries from "./components/Countries"
-import countryService from "./services/Countries"
+import countryService from "./services/countriesService"
 
 const App = () => {
   const [search, setSearch] = useState("")
@@ -14,6 +14,8 @@ const App = () => {
         setCountries(response.data)
       })
   }, [])
+
+
 
   const handleSearchChange = event => setSearch(event.target.value)
 
