@@ -2,10 +2,12 @@ import InfoBox from "./InfoBox"
 import ShowButton from "./ShowButton"
 import WeatherBox from "./WeatherBox"
 
-const Countries = ({countries, weather, setSearch}) => {
+const Countries = ({countries, weather, onClick, search}) => {
     const length = countries.length
 
-    if (length > 10) {
+    if (search === "") {
+        return null
+    } else if (length > 10) {
         return <div>Too many matches, specify another filter</div>
     } else if (length === 1) { 
         const country = countries[0]
@@ -27,7 +29,7 @@ const Countries = ({countries, weather, setSearch}) => {
         return (
             <div>{
                 countries.map((country, id) => 
-                    <Country key={id} name={country.name.common} onClick={setSearch}/>
+                    <Country key={id} name={country.name.common} onClick={onClick}/>
             )}</div>
         )
     }

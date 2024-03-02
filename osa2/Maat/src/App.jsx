@@ -40,10 +40,15 @@ const App = () => {
       country.name.common.toLowerCase().includes(newSearch.toLowerCase())))
   }
 
+  const showCountry = name => {
+    setCountries(countries.filter(country => 
+      country.name.common.toLowerCase().includes(name.toLowerCase())))
+  }
+
   return (
     <div>
       <Searchbox value={search} onChange={handleSearchChange}/>
-      <Countries countries={countries} weather={weather} setSearch={setSearch}/>
+      <Countries countries={countries} weather={weather} onClick={showCountry} search={search}/>
     </div>
   )
 }
