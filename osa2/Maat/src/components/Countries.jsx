@@ -1,9 +1,8 @@
 import InfoBox from "./InfoBox"
 import ShowButton from "./ShowButton"
 import WeatherBox from "./WeatherBox"
-import weatherService from "../services/weather"
 
-const Countries = ({countries, setSearch}) => {
+const Countries = ({countries, setSearch, weather}) => {
     const length = countries.length
 
     if (length > 10) {
