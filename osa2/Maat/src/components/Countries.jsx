@@ -1,17 +1,14 @@
 import InfoBox from "./InfoBox"
 import ShowButton from "./ShowButton"
 import WeatherBox from "./WeatherBox"
-import weatherService from "../services/weather"
 
-const Countries = ({countries, setSearch}) => {
+const Countries = ({countries, weather, setSearch}) => {
     const length = countries.length
 
     if (length > 10) {
         return <div>Too many matches, specify another filter</div>
     } else if (length === 1) { 
         const country = countries[0]
-        const lat = country.capitalInfo.latlng[0]
-        const lng = country.capitalInfo.latlng[1]
 
         return (
             <div>
@@ -23,7 +20,7 @@ const Countries = ({countries, setSearch}) => {
                     img={country.flags.png}
                     alt={country.flags.alt}
                 />
-                <WeatherBox/>
+                <WeatherBox weather={weather} capital={country.capital}/>
             </div>
         )
     } else {
