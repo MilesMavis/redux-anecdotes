@@ -57,6 +57,7 @@ const App = () => {
           })
       }
     } else {
+
       const personObject = {
         name: newName,
         number: newNumber
@@ -65,10 +66,13 @@ const App = () => {
         .create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          notificationTimeout({message: `Added ${name}`, type: "success"})
         })
-        notificationTimeout({message: `Added ${name}`, type: "success"})
+        .catch(error => {
+          console.log(error.response.data)
+          notificationTimeout({message: error.response.data, type: "fail"})
+        })
     }
-    
     setName("")
     setNumber("")
   }
