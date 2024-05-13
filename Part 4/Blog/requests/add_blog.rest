@@ -1,9 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRvaW5lblQiLCJpZCI6IjY2NDBmNjFmMzkyYzIzZDlkYzM0MTdjNyIsImlhdCI6MTcxNTUzMzcwOX0.ZeTNIXW3JZcrWj7TzYLOZWrlGxRxK89teKJWxHamYQ4
 
 {
-    "title": "Testi",
-    "author": "Testaaja",
-    "url": "testiurl",
-    "likes": 5
+    "title": "Joku blogi",
+    "author": "Tuomas Testaaja",
+    "url": "sdfasdf",
+    "likes": 2
 }

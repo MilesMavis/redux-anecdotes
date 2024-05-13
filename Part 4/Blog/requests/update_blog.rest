@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/661f6c404a19cb099cabaf83
+Content-Type: application/json
+
+{
+    "title": "Toinen testi",
+    "author": "Toinen testaaja",
+    "url": "toinentestiblog.com",
+    "likes": 20
+  }
