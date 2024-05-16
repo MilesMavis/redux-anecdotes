@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRvaW5lblQiLCJpZCI6IjY2NDBmNjFmMzkyYzIzZDlkYzM0MTdjNyIsImlhdCI6MTcxNTUzMzcwOX0.ZeTNIXW3JZcrWj7TzYLOZWrlGxRxK89teKJWxHamYQ4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlR1b1QiLCJpZCI6IjY2NDMyNWU2ZTc5MDdmZGEwMWM2M2M2YiIsImlhdCI6MTcxNTY3NjY2Mn0.WSkj_Y46vFJecMJQFVogpbX_RDYct9MQ-jz25VZyuM4
 
 {
-    "title": "Joku blogi",
+    "title": "Toinen testiblogi",
     "author": "Tuomas Testaaja",
-    "url": "sdfasdf",
-    "likes": 2
+    "url": "2testiblog.com",
+    "likes": 5
 }
