@@ -1,7 +1,33 @@
 /* eslint-disable react/prop-types */
-function AddBlogForm({
-  addBlog, newTitle, newAuthor, newUrl, setNewTitle, setNewAuthor, setNewUrl,
-}) {
+import { useState } from 'react';
+
+function AddBlogForm({ createBlog }) {
+  const [newTitle, setNewTitle] = useState('');
+  const [newAuthor, setNewAuthor] = useState('');
+  const [newUrl, setNewUrl] = useState('');
+
+  // const addBlog = (event) => {
+  //   addBlogFormRef.current.toggleVisibility();
+  //   event.preventDefault();
+  //   const blogObject = {
+  //     title: newTitle,
+  //     author: newAuthor,
+  //     url: newUrl,
+  //   };
+
+  const addBlog = (event) => {
+    event.preventDefault();
+    createBlog({
+      title: newTitle,
+      author: newAuthor,
+      url: newUrl,
+    });
+
+    setNewTitle('');
+    setNewAuthor('');
+    setNewUrl('');
+  };
+
   return (
     <form onSubmit={addBlog}>
       <div>

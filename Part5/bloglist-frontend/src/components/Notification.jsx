@@ -14,7 +14,6 @@ function Notification({ message, type }) {
     marginBottom: 10,
   };
 
-  // eslint-disable-next-line consistent-return
   return (
     <div style={style}>
       {message}

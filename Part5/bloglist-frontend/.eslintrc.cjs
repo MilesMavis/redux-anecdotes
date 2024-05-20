@@ -3,7 +3,8 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: 'airbnb',
+  extends: ['airbnb',
+    'plugin:vitest-globals/recommended'],
   overrides: [
     {
       env: {

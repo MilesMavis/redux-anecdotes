@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import Blog from './components/Blog';
 import LogoutButton from './components/LogoutButton';
@@ -7,6 +7,7 @@ import Notification from './components/Notification';
 
 import blogService from './services/blogs';
 import loginService from './services/login';
+import Togglable from './components/Togglable';
 
 function App() {
   const [blogs, setBlogs] = useState([]);
@@ -14,12 +15,11 @@ function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
-  const [newTitle, setNewTitle] = useState('');
-  const [newAuthor, setNewAuthor] = useState('');
-  const [newUrl, setNewUrl] = useState('');
 
   useEffect(() => {
-    blogService.getAll().then((returnedBlogs) => setBlogs(returnedBlogs));
+    blogService.getAll().then((returnedBlogs) => {
+      setBlogs(returnedBlogs);
+    });
   }, []);
 
   useEffect(() => {
@@ -51,12 +51,7 @@ function App() {
       setPassword('');
       messageTimeout({ message: `Logged in ${newUser.name}` });
     } catch (exception) {
-      // täällä
       messageTimeout({ message: 'wrong credentials', type: 'error' });
-      // setErrorMessage('wrong credentials');
-      // setTimeout(() => {
-      //   setErrorMessage(null);
-      // }, 5000);
     }
 
     console.log('logging in with', username, password);
@@ -71,29 +66,44 @@ function App() {
     messageTimeout({ message: `Logged out ${name}` });
   };
 
-  const clearForm = () => {
-    setNewTitle('');
-    setNewAuthor('');
-    setNewUrl('');
-  };
+  const addBlogFormRef = useRef();
 
-  const addBlog = (event) => {
-    event.preventDefault();
-    const blogObject = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl,
-    };
-
+  const addBlog = (blogObject) => {
+    addBlogFormRef.current.toggleVisibility();
     blogService
       .create(blogObject)
       .then((returnedBlog) => {
         setBlogs(blogs.concat(returnedBlog));
-        messageTimeout({message: `A new blog ${returnedBlog.title} was added` });
+        messageTimeout({ message: `A new blog ${returnedBlog.title} was added` });
       });
-
-    clearForm();
   };
+
+  const likeBlog = (blogObject) => {
+    const updatedBlog = {
+      user: blogObject.user.id,
+      likes: blogObject.likes + 1,
+      author: blogObject.author,
+      title: blogObject.title,
+      url: blogObject.url,
+    };
+
+    blogService
+      .update(blogObject.id, updatedBlog)
+      .then((returnedBlog) => setBlogs(blogs.map(
+        (tempBlog) => (tempBlog.title !== returnedBlog.title ? tempBlog : returnedBlog),
+      )));
+  };
+
+  const deleteBlog = (blogObject) => {
+    if (window.confirm(`Do you want to delete ${blogObject.title}`)) {
+      blogService
+        .deleteBlog(blogObject.id)
+        .then(() => setBlogs(
+          blogs.filter((blogItem) => blogItem.id !== blogObject.id),
+        ));
+    }
+  };
+  /* setBlogs(blogs.filter((blogItem) => blogItem. */
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
@@ -119,11 +129,23 @@ function App() {
     </form>
   );
 
-  const blogForm = () => (
-    <div>
-      {blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
-    </div>
-  );
+  const blogForm = () => {
+    const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes);
+
+    return (
+      <div>
+        {sortedBlogs.map((blog) => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            loggedUser={user}
+            likeBlog={likeBlog}
+            deleteBlog={deleteBlog}
+          />
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div>
@@ -140,16 +162,9 @@ function App() {
           <LogoutButton handleLogout={handleLogout} />
         </p>
         <h2>create new</h2>
-        {/* addBlog, newTitle, newAuthor, newUrl, setNewTitle, setNewAuthor, setNewUrl */}
-        <AddBlogForm
-          addBlog={addBlog}
-          newTitle={newTitle}
-          newAuthor={newAuthor}
-          newUrl={newUrl}
-          setNewTitle={setNewTitle}
-          setNewAuthor={setNewAuthor}
-          setNewUrl={setNewUrl}
-        />
+        <Togglable buttonLabel="new blog" ref={addBlogFormRef}>
+          <AddBlogForm createBlog={addBlog} />
+        </Togglable>
         {blogForm()}
       </div>
       )}
