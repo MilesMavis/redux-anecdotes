@@ -14,24 +14,27 @@ blogsRouter.get('/', (request, response) => {
 });
 
 blogsRouter.post('/', userExtractor, async (request, response) => {
-  const { body, user } = request;
+  const blog = new Blog(request.body);
 
-  const blog = new Blog({
-    ...body,
-    user: user.id,
-  });
+  const { user } = request;
 
-  if (!blog.likes) {
-    blog.likes = 0;
+  if (!user) {
+    return response.status(403).json({ error: 'user missing' });
   }
 
-  const savedBlog = await blog.save();
-  user.blogs = user.blogs.concat(savedBlog.id);
+  if (!blog.title || !blog.url) {
+    return response.status(400).json({ error: 'title or url missing' });
+  }
+
+  blog.likes |= 0;
+  blog.user = user;
+  user.blogs = user.blogs.concat(blog._id);
+
   await user.save();
 
-  const returnBlog = { ...savedBlog._doc, user: { username: user.username } };
+  const savedBlog = await blog.save();
 
-  return response.status(201).json(returnBlog);
+  response.status(201).json(savedBlog);
 });
 
 blogsRouter.delete('/:id', userExtractor, async (request, response) => {
@@ -56,12 +59,17 @@ blogsRouter.delete('/:id', userExtractor, async (request, response) => {
 blogsRouter.put('/:id', async (request, response) => {
   const { body } = request;
 
-  const blog = { ...body };
+  const blog = {
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes,
+  };
+
   const updatedBlog = await Blog
     .findByIdAndUpdate(request.params.id, blog, { new: true })
     .populate('user', { username: 1, name: 1, id: 1 });
-
-  return response.json(updatedBlog);
+  response.json(updatedBlog);
 });
 
 module.exports = blogsRouter;

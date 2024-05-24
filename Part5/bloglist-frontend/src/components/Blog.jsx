@@ -22,29 +22,32 @@ function Blog({
 
   return (
     <div style={blogStyle}>
-      {blog.title}
-      {' '}
-      {blog.author}
-      {' '}
+      <div data-testid="main-text">
+        {blog.title}
+        {' '}
+        {blog.author}
+        {' '}
+      </div>
       <button type="button" onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button>
       <div style={showWhenVisible}>
-        {blog.url}
-        <br />
-        likes
-        {' '}
-        {blog.likes}
-        {' '}
-        <button
-          type="button"
-          onClick={() => {
-            likeBlog(blog);
-          }}
-        >
-          like
-        </button>
-        <br />
-        {blog.author}
-        <br />
+        <div>{blog.url}</div>
+        <div>
+          <span>
+            likes
+            {' '}
+            {blog.likes}
+          </span>
+          {' '}
+          <button
+            type="button"
+            onClick={() => {
+              likeBlog(blog.id);
+            }}
+          >
+            like
+          </button>
+        </div>
+        <div>{blog.user.name}</div>
         {blog.user.username === loggedUser.username && (
           <button type="button" onClick={() => deleteBlog(blog)}>remove</button>
         )}

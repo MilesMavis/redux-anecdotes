@@ -36,17 +36,19 @@ function AddBlogForm({ createBlog }) {
         <input
           value={newTitle}
           onChange={({ target }) => setNewTitle(target.value)}
+          id="title-input"
+          data-testid="title-input"
         />
       </div>
       <div>
         author:
         {' '}
-        <input value={newAuthor} onChange={({ target }) => setNewAuthor(target.value)} />
+        <input value={newAuthor} onChange={({ target }) => setNewAuthor(target.value)} id="author-input" data-testid="author-input" />
       </div>
       <div>
         url:
         {' '}
-        <input value={newUrl} onChange={({ target }) => setNewUrl(target.value)} />
+        <input value={newUrl} onChange={({ target }) => setNewUrl(target.value)} id="url-input" data-testid="url-input" />
       </div>
       <div>
         <button type="submit">create</button>

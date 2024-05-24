@@ -78,20 +78,17 @@ function App() {
       });
   };
 
-  const likeBlog = (blogObject) => {
-    const updatedBlog = {
-      user: blogObject.user.id,
-      likes: blogObject.likes + 1,
-      author: blogObject.author,
-      title: blogObject.title,
-      url: blogObject.url,
-    };
+  const likeBlog = (id) => {
+    const tempBlog = blogs.find((n) => n.id === id);
+    const updatedBlog = { ...tempBlog, likes: tempBlog.likes + 1 };
 
     blogService
-      .update(blogObject.id, updatedBlog)
-      .then((returnedBlog) => setBlogs(blogs.map(
-        (tempBlog) => (tempBlog.title !== returnedBlog.title ? tempBlog : returnedBlog),
-      )));
+      .update(id, updatedBlog)
+      .then((returnedBlog) => {
+        setBlogs(blogs.map(
+          (n) => (n.title !== returnedBlog.title ? n : returnedBlog),
+        ));
+      });
   };
 
   const deleteBlog = (blogObject) => {
@@ -106,10 +103,11 @@ function App() {
   /* setBlogs(blogs.filter((blogItem) => blogItem. */
 
   const loginForm = () => (
-    <form onSubmit={handleLogin}>
+    <form onSubmit={handleLogin} data-testid="loginForm">
       <div>
         username
         <input
+          data-testid="username"
           type="text"
           value={username}
           name="Username"
@@ -119,6 +117,7 @@ function App() {
       <div>
         password
         <input
+          data-testid="password"
           type="password"
           value={password}
           name="Password"
