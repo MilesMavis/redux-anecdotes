@@ -27,10 +27,10 @@ export const initializeAnecdotes = () => async (dispatch) => {
   dispatch(setAnecdotes(anecdotes));
 };
 
-// export const createAnecdote = (content) => async (dispatch) => {
-//   const newAnecdote = await anecdoteService.createNew(content);
-//   dispatch(appendAnecdote(newAnecdote));
-// };
+export const createAnecdote = (content) => async (dispatch) => {
+  const newAnecdote = await anecdoteService.createNew(content);
+  dispatch(appendAnecdote(newAnecdote));
+};
 
 // const newAnecdote = await anecdoteService.createNew(content);
 //     dispatch(createAnecdote(newAnecdote));
