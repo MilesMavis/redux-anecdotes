@@ -1,7 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { useSelector, useDispatch } from 'react-redux';
 import { voteAnecdote } from '../reducers/anecdoteReducer';
-import { showVote } from '../reducers/notificationReducer';
+import { setNotification } from '../reducers/notificationReducer';
 
 function Anecdotes() {
   const anecdotesToShow = useSelector(
@@ -14,12 +14,9 @@ function Anecdotes() {
   );
   const dispatch = useDispatch();
 
-  const vote = ({ id, content }) => {
-    dispatch(voteAnecdote(id));
-    dispatch(showVote(`you voted for ${content}`));
-    setTimeout(() => {
-      dispatch(showVote(''));
-    }, 5000);
+  const vote = (anecdote) => {
+    dispatch(voteAnecdote(anecdote));
+    dispatch(setNotification(`you voted for ${anecdote.content}`, 5));
   };
 
   return (

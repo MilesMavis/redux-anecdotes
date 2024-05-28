@@ -1,20 +1,17 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { useDispatch } from 'react-redux';
 import { createAnecdote } from '../reducers/anecdoteReducer';
-import { showVote } from '../reducers/notificationReducer';
+import { setNotification } from '../reducers/notificationReducer';
 
 function AnecdoteForm() {
   const dispatch = useDispatch();
 
-  const addAnecdote = async (event) => {
+  const addAnecdote = (event) => {
     event.preventDefault();
     const content = event.target.anecdote.value;
     event.target.anecdote.value = '';
     dispatch(createAnecdote(content));
-    dispatch(showVote(`you added ${content}`));
-    setTimeout(() => {
-      dispatch(showVote(''));
-    }, 5000);
+    dispatch(setNotification(`you added ${content}`, 5));
   };
 
   return (
